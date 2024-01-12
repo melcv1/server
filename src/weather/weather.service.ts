@@ -34,6 +34,19 @@ export class WeatherService {
       throw new HttpException('Error al obtener el clima actual', HttpStatus.BAD_REQUEST);
     }
   }
+  async getAirPollutionForecasted(city: string): Promise<any> {
+    try {
+      this.weatherAPI.setLocationByName(city);
+      const forecastedAirPollution = await this.weatherAPI.getForecastedAirPollution();
+    
+    // Limitar los resultados a los 5 primeros elementos
+    const firstFiveResults = forecastedAirPollution.slice(0, 5);
+    
+    return firstFiveResults;
+    } catch (error) {
+      throw new HttpException('Error al obtener el clima actual', HttpStatus.BAD_REQUEST);
+    }
+  }
 
   async getForecast(city: string): Promise<any> {
     try {
@@ -44,6 +57,28 @@ export class WeatherService {
     }
   }
 
+  async getForecastByDateDay(city: string, date: string): Promise<any> {
+    try {
+      this.weatherAPI.setLocationByName(city);
+      const forecastData = await this.weatherAPI.getForecast();
+  
+      // Convertir la fecha proporcionada a un objeto Date
+      const inputDate = new Date(date);
+  
+      // Filtrar los datos para obtener el pronóstico a partir de la fecha solicitada
+      const filteredData = forecastData.filter(item => {
+        const itemDate = new Date(item.dt);
+        // Comparar si itemDate es igual o posterior a inputDate
+        return itemDate >= inputDate;
+      });
+  
+      return filteredData;
+    } catch (error) {
+      throw new HttpException('Error al obtener el pronóstico por fecha', HttpStatus.BAD_REQUEST);
+    }
+  }
+  
+
   async getForecastByDate(city: string, date: string): Promise<any> {
     try {
       this.weatherAPI.setLocationByName(city);
@@ -53,10 +88,11 @@ export class WeatherService {
       
        const filteredData = forecastData.filter(item => {
          const itemDate = new Date(item.dt);
-         return itemDate.toISOString().startsWith(date);
+         return itemDate.toISOString();
        });
-  
-      return filteredData;
+  const firstFiveData = filteredData.slice(0, 5);
+
+    return firstFiveData;
     } catch (error) {
       throw new HttpException('Error al obtener el pronóstico por fecha', HttpStatus.BAD_REQUEST);
     }
