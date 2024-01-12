@@ -34,7 +34,9 @@ This Repository is for a server application that consumes a free openweather-api
 $ npm run docker:build
 $ npm run docker:run
 ```
+
 This will create a Docker instance for your application.
+
 ## Test
 
 ```bash
