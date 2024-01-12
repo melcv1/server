@@ -13,5 +13,5 @@ export class ForecastDto {
     description: 'Fecha',
     example: '2024-01-13',
 })
-  date: string; // Formato 'YYYY-MM-DD' para un día específico
+  date: string;  
 }

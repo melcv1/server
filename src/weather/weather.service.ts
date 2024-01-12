@@ -39,7 +39,6 @@ export class WeatherService {
       this.weatherAPI.setLocationByName(city);
       const forecastedAirPollution = await this.weatherAPI.getForecastedAirPollution();
     
-    // Limitar los resultados a los 5 primeros elementos
     const firstFiveResults = forecastedAirPollution.slice(0, 5);
     
     return firstFiveResults;
@@ -62,13 +61,11 @@ export class WeatherService {
       this.weatherAPI.setLocationByName(city);
       const forecastData = await this.weatherAPI.getForecast();
   
-      // Convertir la fecha proporcionada a un objeto Date
       const inputDate = new Date(date);
   
-      // Filtrar los datos para obtener el pronóstico a partir de la fecha solicitada
       const filteredData = forecastData.filter(item => {
         const itemDate = new Date(item.dt);
-        // Comparar si itemDate es igual o posterior a inputDate
+      
         return itemDate >= inputDate;
       });
   
@@ -84,8 +81,6 @@ export class WeatherService {
       this.weatherAPI.setLocationByName(city);
       const forecastData = await this.weatherAPI.getForecast();
   
-       // Filtrar los datos para obtener el pronóstico para la fecha solicitada
-      
        const filteredData = forecastData.filter(item => {
          const itemDate = new Date(item.dt);
          return itemDate.toISOString();
@@ -109,9 +104,8 @@ export class WeatherService {
         return itemDate.toISOString().startsWith(date);
       });
   
-      // Seleccionar solo 5 datos y formatear la hora
       const formattedData = hourlyData.slice(0, 5).map(item => {
-        const formattedTime = format(new Date(item.dt), 'p'); // 'p' es para formato de hora
+        const formattedTime = format(new Date(item.dt), 'p'); 
         return { ...item, time: formattedTime };
       });
   
@@ -138,7 +132,7 @@ export class WeatherService {
         if (forecastForDay) {
           nextFiveDaysForecast.push({
             ...forecastForDay,
-            formattedDay: format(targetDate, 'E') // E.g., Mon, Tue, etc.
+            formattedDay: format(targetDate, 'E')
           });
         }
       }

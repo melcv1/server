@@ -7,9 +7,8 @@ async function bootstrap() {
 
   const config = new DocumentBuilder()
     .setTitle('Weather API')
-    .setDescription('La API para consultar el clima')
+    .setDescription('Melissa Cedeño')
     .setVersion('1.0')
-    // Aquí puedes agregar más configuraciones de Swagger
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
