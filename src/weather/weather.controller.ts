@@ -39,6 +39,18 @@ export class WeatherController {
       );
     }
   }
+  @Get('/air/forecast')
+  @ApiOkResponse({ description: 'Obtiene Forecast AirPollution' })
+  async getAirPollutionForecast(@Query() query: WeatherDto): Promise<any> {
+    try {
+      return await this.weatherService.getAirPollutionForecasted(query.city);
+    } catch (error) {
+      throw new HttpException(
+        'Error al obtener el clima actual',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
 
   @Get('/forecast')
   @ApiOkResponse({
@@ -73,6 +85,26 @@ export class WeatherController {
     }
   }
 
+  @Get('/forecast/date/day')
+  @ApiOkResponse({
+    description: 'Obtiene el pronóstico del clima para un día específico.',
+  })
+  async getForecastByDateDay(@Query() query: ForecastDto): Promise<any> {
+    try {
+      return await this.weatherService.getForecastByDateDay(
+        query.city,
+        query.date,
+      );
+    } catch (error) {
+      throw new HttpException(
+        'Error al obtener el pronóstico por fecha',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  
+
   @Get('/forecast/hourly')
   @ApiOkResponse({
     description: 'Obtiene el pronóstico del clima para un día específico.',
@@ -99,4 +131,5 @@ export class WeatherController {
       throw new HttpException('Error al obtener el pronóstico para los próximos 5 días', HttpStatus.BAD_REQUEST);
     }
   }
+  
 }
